@@ -1,5 +1,7 @@
 # zkauth
-zero knowledge authentication based on the socialist millionaire protocol
+[![GoDoc](https://godoc.org/github.com/mad-day/zkauth?status.svg)](https://godoc.org/github.com/mad-day/zkauth)
+
+Zero knowledge authentication based on the socialist millionaire protocol.
 
 
 ```go

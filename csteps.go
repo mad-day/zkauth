@@ -29,9 +29,7 @@ import "golang.org/x/crypto/sha3"
 import "github.com/mad-day/hypercomplex"
 import "math/big"
 import "io"
-import "errors"
 
-var Failed = errors.New("Failed")
 
 func isOneOrZero(c hypercomplex.MultiComp) bool {
 	var O,I big.Int
@@ -54,11 +52,19 @@ type Handshake struct{
 	hypercomplex.Modulus
 	H hypercomplex.MultiComp
 	A, Al, R []byte
+	
+	// The handshake has two different parties: a primary and a secondary.
+	// The 'Primary' field of the two parties MUST differ.
 	Primary bool
 	G, Y, P, Q, ShouldC hypercomplex.MultiComp
-	Message []byte
-	Failed bool
+	Message []byte // The message that should be authenticated.
+	Failed bool // Will be 'true' if the handshake failed.
 }
+
+// First step of the handshake.
+// mcLen must be a power of two.
+// pkLen is the byte-length of secret random values
+// (The protocol uses three).
 func (h *Handshake) Step1(seed []byte,r io.Reader,mcLen,pkLen int) (A,Al hypercomplex.MultiComp, err error){
 	{
 		x := sha3.NewShake256()
